@@ -19,4 +19,3 @@ elsif d == 0
 elsif d < 0
 	puts "Our D = #{d} so... We don't have any roots."
 end
-	

@@ -1,11 +1,11 @@
 #right triangle
 
 puts "Type side 1: "
-side1 = gets.chomp.to_i
+side1 = gets.chomp.to_f
 puts "Type side 2: "
-side2 = gets.chomp.to_i
+side2 = gets.chomp.to_f
 puts "Type side 3: "
-side3 = gets.chomp.to_i
+side3 = gets.chomp.to_f
 
 #Проверяем прямоугольный/равнобедренный:
 if side1 > side2 && side1 >side3
