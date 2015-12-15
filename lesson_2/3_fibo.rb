@@ -10,6 +10,6 @@ x = 0
 
 while x < 100 
 	x = arr[n-1] + arr[n-2]
-	arr.push(x) if x < 100
+	arr << x if x < 100
 	n += 1
 end
