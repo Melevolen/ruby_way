@@ -13,11 +13,15 @@ while name != "stop"
 	end 
 end 
 
-all.each {|k, v| puts "You want #{k} and it will be #{v['price']*v['count']}"}
-
-all.each_value do |v|
-	 all_money = all_money + v['price']*v['count']
+#all.each {|k, v| puts "You want #{k} and it will be #{v['price']*v['count']}"}
+all.each do |k, v| 
+	puts "You want #{k} and it will be #{v['price']*v['count']}"
+	all_money = all_money + v['price']*v['count']
 end
+
+# all.each_value do |v|
+# 	 all_money = all_money + v['price']*v['count']
+# end
 puts all 
 puts '----------------------'
 puts all_money
