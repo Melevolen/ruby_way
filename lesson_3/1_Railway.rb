@@ -55,7 +55,7 @@ class Train
 			@carriages = carriages
 			@kind = kind
 		else
-			return  puts "Your train went to the dark side... His carriages are less then 0..."
+			return  puts "Your train went to the dark side... His carriages are less or equal 0..."
 		end
 	end 
 	def faster(spd)
