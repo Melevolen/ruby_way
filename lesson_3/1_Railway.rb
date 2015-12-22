@@ -14,22 +14,6 @@ class RailwayStation
 	def trains_list
 		puts @trains
 	end
-	# def trains_cargo_count
-	# 	@trains.each  do |x|
-	# 		if x.kind == "cargo"
-	# 			@trains_cargo += 1
-	# 		end
-	# 		p @trains_cargo
-	# 	end
-	# end
-	# def trains_passenger_count
-	# 	@trains.each  do |x|
-	# 		if x.kind == "passenger"
-	# 			@trains_passenger += 1
-	# 		end
-	# 		p @trains_passenger
-	# 	end
-	# end
 	def trains_count(knd) # cargo || passenger
 		trains_count_now = 0
 		@trains.each do |x|
@@ -61,15 +45,18 @@ class Route #Part done
 end
 
 class Train 
-# Перемещаться между станциями, указанными в маршруте.
 
 	attr_accessor :speed
 	attr_reader :carriages, :kind, :route
 
-	def initialize (kind, carriages) #cargo || passenger
-		@speed = 0
-		@carriages = carriages
-		@kind = kind
+	def initialize (kind, carriages = 1)   #cargo || passenger
+		if carriages > 0
+			@speed = 0
+			@carriages = carriages
+			@kind = kind
+		else
+			return  puts "Your train went to the dark side... His carriages are less then 0..."
+		end
 	end 
 	def faster(spd)
 		@speed += spd
@@ -90,7 +77,6 @@ class Train
 		@route.stations[@stn].train_add(train_obj)
 	end
 	def station_now 
-	#	@route.stations.each {|x| p x.name}
 		p	@route.stations[@stn].name
 	end
 	def station_next
@@ -109,7 +95,7 @@ class Train
 		@route.stations[@stn].train_add(train_obj)
 	end	
 	def carriages_del
-		if speed == 0 && @carriages != 0   # Проверяем скорость и кол-во вагонов.
+		if speed == 0 && @carriages > 0   # Проверяем скорость и кол-во вагонов.
 			@carriages -= 1
 		else
 			puts "pls stop the Train! Use 'stop' method for it AND check your CARRIAGES"
@@ -129,6 +115,7 @@ route1.station_add(station2)
 p route1.stations
 
 train1 = Train.new("cargo", 15)
+p train1
 train1.route_add(route1, train1)
 
 p train1.route 
