@@ -4,8 +4,6 @@ class RailwayStation
 	def initialize(name)
 		@name = name
 		@trains = []
-		@trains_cargo = 0
-		@trains_passenger = 0
 	end
 	def train_add (train_obj) 
 		@trains << train_obj
@@ -16,22 +14,31 @@ class RailwayStation
 	def trains_list
 		puts @trains
 	end
-	def trains_cargo_count
-		@trains.each  do |x|
-			if x.kind == "cargo"
-				@trains_cargo += 1
+	# def trains_cargo_count
+	# 	@trains.each  do |x|
+	# 		if x.kind == "cargo"
+	# 			@trains_cargo += 1
+	# 		end
+	# 		p @trains_cargo
+	# 	end
+	# end
+	# def trains_passenger_count
+	# 	@trains.each  do |x|
+	# 		if x.kind == "passenger"
+	# 			@trains_passenger += 1
+	# 		end
+	# 		p @trains_passenger
+	# 	end
+	# end
+	def trains_count(knd) # cargo || passenger
+		trains_count_now = 0
+		@trains.each do |x|
+			if x.kind == knd
+				trains_count_now += 1
 			end
-			p @trains_cargo
-		end
-	end
-	def trains_passenger_count
-		@trains.each  do |x|
-			if x.kind == "passenger"
-				@trains_passenger += 1
-			end
-			p @trains_passenger
-		end
-	end
+			p trains_count_now
+		end	
+	end 
 end
 
 class Route #Part done
@@ -101,6 +108,13 @@ class Train
 		@stn += 1 # && (puts "Go to the next station")
 		@route.stations[@stn].train_add(train_obj)
 	end	
+	def carriages_del
+		if speed == 0 && @carriages != 0   # Проверяем скорость и кол-во вагонов.
+			@carriages -= 1
+		else
+			puts "pls stop the Train! Use 'stop' method for it AND check your CARRIAGES"
+		end
+	end
 end
 
 station1 = RailwayStation.new("monino")
@@ -131,5 +145,16 @@ p train1.carriages #ДОбавляем вагончик
 train1.carriages_add
 p train1.carriages
 
-station3.trains_cargo_count # Считаем кол-во поездов на станции каждого вида.
-station3.trains_passenger_count
+station3.trains_count("cargo") # Считаем кол-во поездов на станции каждого вида.
+station3.trains_count("passenger") 
+
+train1.carriages_del # Отцепили 2 вагона.
+train1.carriages_del
+p train1.carriages
+
+
+
+
+
+
+
