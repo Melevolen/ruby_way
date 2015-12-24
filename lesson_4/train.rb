@@ -1,8 +1,8 @@
 class Train 
-
+protected 
 	attr_accessor :speed
 	attr_reader :carriages, :kind, :route
-protected 
+
 # Потому что, в соответствиис  соглашением - используем его, чтобы был доступ у подклассов к методам данного класса. 
 # Завожу все, чтобы можно было создавать только грузовые или пассажирские поезда через соотв классы.
 	def initialize (kind, carriages = 1)   #cargo || passenger
@@ -20,13 +20,13 @@ protected
 	def stop
 		@speed = 0
 	end
-	def carriages_add
-		if speed == 0
-			@carriages += 1
-		else
-			puts "pls stop the Train! Use 'stop' method for it."
-		end
-	end
+	# def carriages_add
+	# 	if speed == 0
+	# 		@carriages += 1
+	# 	else
+	# 		puts "pls stop the Train! Use 'stop' method for it."
+	# 	end
+	# end
 	def route_add(route_name, train_obj)
 		@route = route_name
 		@stn = 0 
@@ -50,9 +50,18 @@ protected
 		@stn += 1 
 		@route.stations[@stn].train_add(train_obj)
 	end	
-	def carriages_del
-		if speed == 0 && @carriages > 0 
-			@carriages -= 1
+	# def carriages_del
+	# 	if speed == 0 && @carriages > 0 
+	# 		@carriages -= 1
+	# 	else
+	# 		puts "pls stop the Train! Use 'stop' method for it AND check your CARRIAGES"
+	# 	end
+	# end
+public # Мы вызываем этот метод напрямую в файле main.rb, а не через обьект.
+	def carriage_del
+		if speed == 0 && @carriages.count > 0 
+#			@carriages -= 1
+			@carriages.delete_at(-1)
 		else
 			puts "pls stop the Train! Use 'stop' method for it AND check your CARRIAGES"
 		end
