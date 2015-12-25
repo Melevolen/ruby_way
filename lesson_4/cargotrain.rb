@@ -8,12 +8,4 @@ class CargoTrain < Train
 		@carriages = [] 
 		@name = name	
 	end
-	def carriage_add
-		if speed == 0
-#			@carriages += 1
-			@carriages << CargoCarriage.new
-		else
-			puts "pls stop the Train! Use 'stop' method for it."
-		end
-	end
 end

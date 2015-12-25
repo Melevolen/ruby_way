@@ -4,6 +4,7 @@ require_relative 'passengertrain'
 require_relative 'cargotrain'
 require_relative 'passenger_carriage'
 require_relative 'cargo_carriage'
+require_relative 'carriage'
 
 puts "Railway-creation.   v. 1.0"
 puts "Hi, now you are in Railway-creation mode!"
@@ -18,7 +19,7 @@ puts "----"
 # + Добавлять вагоны к поезду
 # + Отцеплять вагоны от поезда
 # + Помещать поезда на станцию
-# Просматривать список станций и список поездов на станции
+# + Просматривать список станций и список поездов на станции
 trains = []
 stations = []
 command = "start"
@@ -50,7 +51,7 @@ while command != "exit"
 		when command == "carriage_add"
 			puts "Pls tell a name of created train: "
 			train_name = gets.chomp
-			trains.each{|x|  x.carriage_add if x.name == train_name}
+			trains.each{|x|  x.carriage_add(x.kind, x) if x.name == train_name}
 		when command == "carriage_del" # Удалим самый последний вагон.
 			puts "Pls tell a name of created train: "
 			train_name = gets.chomp
