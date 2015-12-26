@@ -51,7 +51,7 @@ while command != "exit"
 		when command == "carriage_add"
 			puts "Pls tell a name of created train: "
 			train_name = gets.chomp
-			trains.each{|x|  x.carriage_add(x.kind, x) if x.name == train_name}
+			trains.each{|x|  x.carriage_add(x.kind) if x.name == train_name}
 		when command == "carriage_del" # Удалим самый последний вагон.
 			puts "Pls tell a name of created train: "
 			train_name = gets.chomp

@@ -1,12 +1,13 @@
 class Carriage
-	def carriage_create(kind, train_obj)
+#	def self.create(kind)
+	def create(kind)
 		if kind == "cargo"
-			train_obj.carriages << CargoCarriage.new
+			CargoCarriage.new
 		elsif kind == "passenger"
-			train_obj.carriages << PassengerCarriage.new
+			PassengerCarriage.new
 		else
 			puts "Wrong kind of train."
 		end
 	end
 end
-
+	

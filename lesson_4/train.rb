@@ -11,6 +11,16 @@ class Train
 
 	attr_accessor :speed
 	attr_reader :carriages, :kind, :route
+
+	def initialize (kind, carriages = 1)   #cargo || passenger
+		if carriages > 0
+			@speed = 0
+			@carriages = carriages
+			@kind = kind
+		else
+			return  puts "Your train went to the dark side... His carriages are less or equal 0..."
+		end
+	end
 	def carriage_del
 		if speed == 0 && @carriages.count > 0 
 			@carriages.delete_at(-1)
@@ -18,9 +28,10 @@ class Train
 			puts "pls stop the Train! Use 'stop' method for it AND check your CARRIAGES"
 		end
 	end
-	def carriage_add(kind, train_obj)
+	def carriage_add(kind)
 		if speed == 0
-			Carriage.new.carriage_create(kind, train_obj)
+			@carriages << Carriage.new.create(kind)
+#			Carriage.new.carriage_create(kind, train_obj)
 		else
 			puts "pls stop the Train! Use 'stop' method for it."
 		end
@@ -55,17 +66,6 @@ class Train
 		@stn += 1 
 		@route.stations[@stn].train_add(train_obj)
 	end	
-protected 
-	def initialize (kind, carriages = 1)   #cargo || passenger
-		if carriages > 0
-			@speed = 0
-			@carriages = carriages
-			@kind = kind
-		else
-			return  puts "Your train went to the dark side... His carriages are less or equal 0..."
-		end
-	end
-
 end
 
 
