@@ -1,27 +1,22 @@
 module Prod
-attr_accessor :factory
-	# def factory(factory_name)
-	# 	@factory = factory_name
-	# end
+	attr_accessor :factory
 end
 
 module InstanceCounter
+	def self.included (base)
+		base.extend ClassMethods
+		base.send :include, InstanceMethods
+	end
 	module ClassMethods
 		attr_accessor :instances
-		@instances = 5
-		# def initialize
-		# 	register_instance
-		# end
-		# def self.instances 
-		# 	@@instances
-		# end
+		@instances = 0
 	end
 
 	module InstanceMethods
 
-#		protected
+		protected
 		def register_instance
-		  @@instances += 1
+		  @instances += 1
 		end
 	end
 end
