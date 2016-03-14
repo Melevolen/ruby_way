@@ -1,20 +1,27 @@
 module Prod
-attr_reader :factory
-	def factory(factory_name)
-		@factory = factory_name
-	end
+attr_accessor :factory
+	# def factory(factory_name)
+	# 	@factory = factory_name
+	# end
 end
 
 module InstanceCounter
-	attr_accessor :instance
-	@instance = 0
-	def self.instances 
-		puts @instance
+	module ClassMethods
+		attr_accessor :instances
+		@instances = 5
+		# def initialize
+		# 	register_instance
+		# end
+		# def self.instances 
+		# 	@@instances
+		# end
 	end
 
-protected
-	def register_instance
-	  @instance += 1
-	  p @instance
+	module InstanceMethods
+
+#		protected
+		def register_instance
+		  @@instances += 1
+		end
 	end
 end

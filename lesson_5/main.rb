@@ -36,21 +36,21 @@ while command != "exit"
 				if train_kind == "cargo"
 					puts "Name for cargo Train? "
 					train_name = gets.chomp
-					train_name = CargoTrain.new(train_name)
-					train_name.factory(train_factory)
+					train_name = CargoTrain.new(train_name, train_factory)
+#					train_name.factory(train_factory)
 #					trains << train_name
-					number = rand(200..800)
-					Train.trains["#{number}"] = train_name
-					p "Your train was created with number: #{number}"
+					# number = rand(200..800)
+					# Train.trains["#{number}"] = train_name
+					# p "Your train was created with number: #{number}"
 				elsif train_kind == "passenger"
 					puts "Name for passenger Train? "
 					train_name = gets.chomp
-					train_name = PassengerTrain.new(train_name)
-					train_name.factory(train_factory)
+					train_name = PassengerTrain.new(train_name, train_factory)
+#					train_name.factory(train_factory)
 #					trains << train_name
-					number = rand(200..800)
-					Train.trains["#{number}"] = train_name
-					p "Your train was created with number: #{number}"
+					# number = rand(200..800)
+					# Train.trains["#{number}"] = train_name
+					# p "Your train was created with number: #{number}"
 				else
 					puts "ERROR: Wrong kind"	
 				end	

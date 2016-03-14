@@ -11,13 +11,17 @@ class Train
 
 	@@trains = {}
 
-	def initialize (kind, carriages = 1)   #cargo || passenger
+	def initialize (train_name, train_factory, carriages = 1)   #cargo || passenger
 #		@number = rand(200..800)
-		@name = name
 		if carriages > 0
+			@name = train_name
 			@speed = 0
 			@carriages = carriages
 			@kind = kind
+			@factory = train_factory
+			number = rand(200..800)
+			@@trains["#{number}"] =  "#{self}"    
+			p "Your train was created with number: #{number}"
 		else
 			return  puts "Your train went to the dark side... His carriages are less or equal 0..."
 		end
