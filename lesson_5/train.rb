@@ -4,12 +4,15 @@ require_relative 'carriage'
 require_relative 'modules'
 
 class Train 
+
 	include Prod
 	attr_accessor :speed, :number
 	attr_reader :carriages, :kind, :route
 
+	@@trains = {}
+
 	def initialize (kind, carriages = 1)   #cargo || passenger
-		@number = rand(200..800)
+#		@number = rand(200..800)
 		@name = name
 		if carriages > 0
 			@speed = 0
@@ -18,18 +21,12 @@ class Train
 		else
 			return  puts "Your train went to the dark side... His carriages are less or equal 0..."
 		end
-		p "Your train was created with number: #{number}"
 	end
-	def self.find(train_number, trains)
-#		puts "#{train_number} and #{trains}"
-		trains.each do |i|
-			if train_number.to_i == i.number
-#				p i.number
-				p i
-			else 
-				puts "Nope."
-			end
-		end
+	def self.trains
+		@@trains
+	end
+	def self.find(train_number)
+		p @@trains["#{train_number}"]
 	end
 	def carriage_del
 		if speed == 0 && @carriages.count > 0 
@@ -76,14 +73,3 @@ class Train
 		@route.stations[@stn].train_add(train_obj)
 	end	
 end
-
-
-
-
-
-
-
-
-
-
-

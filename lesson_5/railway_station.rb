@@ -1,4 +1,6 @@
+require_relative 'modules'
 class RailwayStation
+	extend InstanceCounter
 	attr_accessor :trains
 	attr_reader :name
 	@@r_stations = []

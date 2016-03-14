@@ -16,7 +16,7 @@ puts "Briefly: stations, route, add stations to route, train, add train to route
 puts "In version 1.0 we dont use Routs! Only stations, trains and carriages."
 puts "----"
 
-trains = []
+#trains = []
 stations = []
 command = "start"
 while command != "exit"
@@ -38,15 +38,21 @@ while command != "exit"
 					train_name = gets.chomp
 					train_name = CargoTrain.new(train_name)
 					train_name.factory(train_factory)
-					trains << train_name
+#					trains << train_name
+					number = rand(200..800)
+					Train.trains["#{number}"] = train_name
+					p "Your train was created with number: #{number}"
 				elsif train_kind == "passenger"
 					puts "Name for passenger Train? "
 					train_name = gets.chomp
 					train_name = PassengerTrain.new(train_name)
 					train_name.factory(train_factory)
-					trains << train_name
+#					trains << train_name
+					number = rand(200..800)
+					Train.trains["#{number}"] = train_name
+					p "Your train was created with number: #{number}"
 				else
-					puts "ERROR: Wrond kind"	
+					puts "ERROR: Wrong kind"	
 				end	
 		when command == "carriage_add"
 			puts "Pls tell a name of created train: "
@@ -68,7 +74,7 @@ while command != "exit"
 					x.train_add(train_obj) if x.name == station_name
 			end
 		when command == "list"	
-			p "Our trains: #{trains}"
+			p "Our trains: #{Train.trains}"
 			p "Our full stations data: #{stations}"
 			p "Our railway stations names: #{RailwayStation.all}"
 			stations.each do |i|
@@ -78,7 +84,7 @@ while command != "exit"
 		when command == 'train_s'
 			puts "Input a number of your train: "
 			train_number = gets.chomp 
-			Train.find(train_number, trains)
+			Train.find(train_number)
 
 	end 
 end
