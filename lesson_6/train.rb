@@ -9,26 +9,36 @@ class Train
   attr_accessor :speed, :number
   attr_reader :carriages, :kind, :route
 
+  NUMBER_FORMAT = /^(\d{3}|[a-z]{3})-?(\d{2}|[a-z]{2})$/i
+
   @@trains = {}
 
-  def initialize (train_name, train_factory, carriages = 1)   #cargo || passenger
-
+  def initialize (train_name, train_factory, train_number, carriages = 1)   #cargo || passenger
 
       @name = train_name
       @speed = 0
       @carriages = carriages
       @kind = kind
       @factory = train_factory
+      @number = train_number 
       validate!
-      number = rand(200..800)
       @@trains["#{number}"] =  self 
       p "Your train was created with number: #{number}"
+    rescue RuntimeError => e 
+      puts e.inspect
   end
   def validate! 
       raise "Error! Carriages are less or equal 0..." if carriages <= 0
       raise "NameError: Input factory name." if factory.nil?
       raise "NameError: input a name for your train." if name.nil? 
+      raise "Wrong number format!!!" if number !~ NUMBER_FORMAT 
+      raise "Number already created." if @@trains.keys.include?(number) # Валидация на глобальную уникальность номера.
       true
+  end
+  def valid?
+    validate! # Train instance validate.
+  rescue 
+    false
   end
   def self.trains
     @@trains
@@ -44,13 +54,12 @@ class Train
     end
   end
   def carriage_add(kind, carriage_prod)
-    if speed == 0
-      @carriages << Carriage.new.create(kind, carriage_prod)
-    else
-      puts "pls stop the Train! Use 'stop' method for it."
-    end
+    raise "Not enougth data! kind, carriage_prod" if kind.nil? || carriage_prod.nil?
+    raise "Error! Too much speed! pls stop the Train! Use 'stop' method for it." if speed != 0 
+    @carriages << Carriage.new.create(kind, carriage_prod)
   end
   def faster(spd)
+    raise "Error! No variable!" if spd.nil?
     @speed += spd
   end
   def stop
@@ -58,6 +67,8 @@ class Train
   end
 
   def route_add(route_name, train_obj)
+    raise "Error! route_name?" if route_name.nil?
+    raise "Error! train_obj?" if train_obj.nil?
     @route = route_name
     @stn = 0 
     @route.stations[@stn].train_add(train_obj)

@@ -9,10 +9,17 @@ class RailwayStation
     @trains = []
     @@r_stations << name
     validate!
+    rescue RuntimeError => e 
+      puts e.inspect
   end
   def validate! 
       raise "NameError: input a name for your train." if name.nil? 
       true
+  end
+  def valid?
+    validate!
+  rescue
+    false
   end
   def self.all
     return @@r_stations 

@@ -34,21 +34,23 @@ while command != "exit"
       raise "Error: Wrong kind" if train_kind !=  "cargo" && train_kind != "passenger"
       puts "Who will produce the train?"
       train_factory = gets.chomp
+      puts "train_number?"
+      train_number = gets.chomp
         if train_kind == "cargo"
           puts "Name for cargo Train? "
           train_name = gets.chomp 
-          train_name = CargoTrain.new(train_name, train_factory)
+          train_name = CargoTrain.new(train_name, train_factory, train_number)
         elsif train_kind == "passenger"
           puts "Name for passenger Train? "
           train_name = gets.chomp
-          train_name = PassengerTrain.new(train_name, train_factory)
+          train_name = PassengerTrain.new(train_name, train_factory, train_number)
         end   
     when command == "carriage_add"
       puts "Pls tell a name of created train: "
       train_name = gets.chomp
       puts "Say a name of company that will produce Carriage: "
       carriage_prod = gets.chomp
-      trains.each{|x|  x.carriage_add(x.kind, carriage_prod) if x.name == train_name}
+      Train.trains.each{|n, x|  x.carriage_add(x.kind, carriage_prod) if x.name == train_name}
     when command == "carriage_del" # Удалим самый последний вагон.
       puts "Pls tell a name of created train: "
       train_name = gets.chomp

@@ -5,7 +5,9 @@ class Max
 	def initialize(numb)
 		@numb = numb
 		register_instances
+		p self.class
 	end
 end
 lol = Max.new("123")
 p Max.instances
+puts "yes" if lol.class == Max
