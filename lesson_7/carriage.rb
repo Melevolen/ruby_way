@@ -2,12 +2,12 @@ require_relative 'modules'
 
 class Carriage
 	include Prod
-	def create(kind, carriage_prod)
+	def create(kind, carriage_prod, carriage_space)
 		raise "Error: Wrong kind" if kind !=  "cargo" && kind != "passenger"
 		if kind == "cargo"
-			CargoCarriage.new(kind, carriage_prod)
+			CargoCarriage.new(kind, carriage_prod, carriage_space)
 		elsif kind == "passenger"
-			PassengerCarriage.new(carriage_prod)
+			PassengerCarriage.new(carriage_prod, carriage_space)
 		end
 	end
 end

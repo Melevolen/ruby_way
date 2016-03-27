@@ -24,8 +24,6 @@ class Train
       validate!
       @@trains["#{number}"] =  self 
       p "Your train was created with number: #{number}"
-      rescue RuntimeError => e 
-      puts e.inspect
   end
   def validate! 
       raise "Error! Carriages are less or equal 0..." if carriages <= 0
@@ -48,7 +46,7 @@ class Train
   end
   def self.find(train_number)
 #    p @@trains["#{train_number}"]
-    @@trains["#{train_number}"]
+  p  @@trains["#{train_number}"]
   end
   def carriage_del
     if speed == 0 && @carriages.count > 0 
@@ -57,10 +55,10 @@ class Train
       puts "pls stop the Train! Use 'stop' method for it AND check your CARRIAGES"
     end
   end
-  def carriage_add(kind, carriage_prod)
+  def carriage_add(kind, carriage_prod, carriage_space)
     raise "Not enougth data! kind, carriage_prod" if kind.nil? || carriage_prod.nil?
     raise "Error! Too much speed! pls stop the Train! Use 'stop' method for it." if speed != 0 
-    @carriages << Carriage.new.create(kind, carriage_prod)
+    @carriages << Carriage.new.create(kind, carriage_prod, carriage_space)
   end
   def faster(spd)
     raise "Error! No variable!" if spd.nil?
@@ -77,12 +75,15 @@ class Train
     @stn = 0 
     @route.stations[@stn].train_add(train_obj)
   end
+
   def station_now 
     p @route.stations[@stn].name
   end
+
   def station_next
     p @route.stations[@stn+1].name
   end
+
   def station_previous 
     if @stn == 0
       puts "You at the first station in your Route"
@@ -90,9 +91,11 @@ class Train
       p @route.stations[@stn-1].name
     end
   end
+
   def go_forward(train_obj)
     @route.stations[@stn].trains_go_route(train_obj)
     @stn += 1 
     @route.stations[@stn].train_add(train_obj)
-  end 
+  end
+   
 end

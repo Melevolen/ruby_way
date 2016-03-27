@@ -17,8 +17,11 @@ while command != "exit"
     when command == "station"
       puts "Name for Station? "
       station_name = gets.chomp
-      station_name = RailwayStation.new(station_name)
- #     stations << station_name
+      begin
+        station_name = RailwayStation.new(station_name)
+        rescue RuntimeError => e 
+        puts e.inspect
+      end
     when command == "train"
       puts "What kind of train you want? (cargo or passenger)"
       train_kind = gets.chomp
@@ -27,6 +30,7 @@ while command != "exit"
       train_factory = gets.chomp
       puts "train_number?"
       train_number = gets.chomp
+      begin
         if train_kind == "cargo"
           puts "Name for cargo Train? "
           train_name = gets.chomp 
@@ -35,19 +39,30 @@ while command != "exit"
           puts "Name for passenger Train? "
           train_name = gets.chomp
           train_name = PassengerTrain.new(train_name, train_factory, train_number)
-        end   
+        end 
+        rescue RuntimeError => e 
+        puts e.inspect
+      end
     when command == "carriage_add"
       puts "Pls tell the number of created train: "
       train_number = gets.chomp
       puts "Say a name of company that will produce Carriage: "
       carriage_prod = gets.chomp
       # Train.trains.each{|n, x|  x.carriage_add(x.kind, carriage_prod) if x.name == train_name}
-      train_obj = Train.trains["#{train_number}"]
-      train_obj.carriage_add(train_obj.kind, carriage_prod) #ВОзможно возвращение train_obj через self чтобы вообще все в предыдущей строке записать
+      begin
+        train_obj = Train.trains["#{train_number}"]
+        puts "Input size for carriage:" if train_obj.kind == "passenger"
+        puts "Input volume for carriage" if train_obj.kind == "cargo"
+        carriage_space = gets.chomp
+        train_obj.carriage_add(train_obj.kind, carriage_prod, carriage_space) #ВОзможно возвращение train_obj через self чтобы вообще все в предыдущей строке записать
+        rescue RuntimeError => e 
+        puts e.inspect
+      end
     when command == "carriage_del" # Удалим самый последний вагон.
       puts "Pls tell a name of created train: "
       train_name = gets.chomp
       Train.trains.each{|n, x|  x.carriage_del if x.name == train_name}
+
     when command == "train on station" 
       puts "train number: "
       train_number = gets.chomp
@@ -58,6 +73,7 @@ while command != "exit"
       RailwayStation.all.each do |x, v|
           v.train_add(train_obj) if x == station_name
       end
+
     when command == "list"  
       p "Our trains: #{Train.trains}"
       p "Our full stations data: #{stations}"
@@ -66,10 +82,12 @@ while command != "exit"
         p "On station: #{i.name} we have: " 
         p i.trains_list
       end
+
     when command == 'train_s'
       puts "Input a number of your train: "
       train_number = gets.chomp 
       Train.find(train_number)
+      
     when command == 'stations_trains'
       RailwayStation.all.each do |k, i|
         puts "On #{i} station we have: "
@@ -82,6 +100,29 @@ while command != "exit"
           end
         end
       end
+
+    when command == "carriage_list"
+      puts "Train number for carriage list:"
+      train_number = gets.chomp
+      Train.trains["#{train_number}"].carriages.each do |i|
+        puts "Carriage number #{i.number}, kind #{i.kind}, free space #{i.free_volume}" if i.kind == "cargo"
+        puts "Carriage number #{i.number}, kind #{i.kind}, free size #{i.free_space}" if i.kind == "passenger"
+      end
+
+    when command == "load_carriage"
+      puts "Train number for carriage list:"  
+      train_number = gets.chomp 
+      train_obj = Train.trains["#{train_number}"] 
+      p train_obj
+      puts "carriage number?"
+      carriage_numb = gets.chomp
+      if train_obj.kind == "cargo" 
+        puts "how much?"
+        weight = gets.chomp
+        train_obj.carriages.each{|i| i.loading_goods(weight) if i.number.to_s == carriage_numb}
+      else
+        train_obj.carriages.each {|i| i.passenger_add if i.number.to_s == carriage_numb}
+      end       
   end 
 end
 
