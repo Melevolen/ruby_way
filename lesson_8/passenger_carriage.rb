@@ -1,6 +1,5 @@
 class PassengerCarriage
-
-  attr_reader :kind, :factory, :size_full # Пока не добавил не работал validate!. Без него метод Train работает, а тут не работает...
+  attr_reader :kind, :factory, :size_full
   attr_accessor :free_space
 
   def initialize(kind, carriage_prod, carriage_space)
@@ -10,13 +9,11 @@ class PassengerCarriage
     @free_space = carriage_space
     @number = rand(200..500)
     validate!
-    # rescue RuntimeError => e 
-    #   puts e.inspect
   end
 
   def validate!
-    raise "Error! Wring kind for this class." if kind != "passenger" # Пока что сделал на всякий случай. 
-    raise "Error! Factory must be." if factory.nil?
+    fail 'Error! Wring kind for this class.' if kind != 'passenger'
+    fail 'Error! Factory must be.' if factory.nil?
   end
 
   def passenger_add
@@ -24,7 +21,7 @@ class PassengerCarriage
   end
 
   def busy_space
-   @size - @free_space
+    @size - @free_space
   end
 
   def valid?
@@ -32,5 +29,4 @@ class PassengerCarriage
   rescue
     false
   end
-  
 end

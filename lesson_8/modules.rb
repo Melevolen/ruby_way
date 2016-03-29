@@ -1,22 +1,23 @@
 module Prod
-	attr_accessor :factory
+  attr_accessor :factory
 end
 
 module InstanceCounter
-	def self.included (base)
-		base.extend ClassMethods 
-		base.send :include, InstanceMethods
-	end
-	module ClassMethods
-		attr_accessor :instances
-	end
+  def self.included(base)
+    base.extend ClassMethods
+    base.send :include, InstanceMethods
+  end
+  module ClassMethods
+    attr_accessor :instances
+  end
 
-	module InstanceMethods # Метод инстанса
+  module InstanceMethods # Instance methods :)
+    protected
 
-		protected
-		def register_instances
-		  self.class.instances ||= 0 # Иициализирует переменную при первом экземпляре класса, те когда она еще не создана.
-		  self.class.instances += 1 # Увеличивает значение переменной, обращаемся к переменной КЛАССА  "self.class.variable"
-		end
-	end
+    def register_instances
+      self.class.instances ||= 0  # If variable not exist - create her with 0.
+      self.class.instances += 1   # Increase class variable,
+      # to CLASS variable - "self.class.variable"
+    end
+  end
 end

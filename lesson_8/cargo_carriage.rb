@@ -1,8 +1,7 @@
 class CargoCarriage
-
-attr_reader :kind, :factory, :number # Пока не добавил не работал validate!. Без него метод Train работает, а тут не работает...
-attr_accessor :free_volume
-#  @@cargo_carriages = {}
+  attr_reader :kind, :factory, :number
+  attr_accessor :free_volume
+  #  @@cargo_carriages = {}
   def initialize(kind, carriage_prod, carriage_space)
     @kind = kind
     @factory = carriage_prod
@@ -10,9 +9,7 @@ attr_accessor :free_volume
     @free_volume = carriage_space
     @number = rand(200..500)
     validate!
- #   @@cargo_carriages["#{number}"] = self
-    # rescue RuntimeError => e 
-    #   puts e.inspect
+    #   @@cargo_carriages["#{number}"] = self
   end
 
   def loading_goods(goods)
@@ -20,13 +17,13 @@ attr_accessor :free_volume
   end
 
   def busy_space
- #   @free_volume ||= @volume
+    #   @free_volume ||= @volume
     p @volume - @free_volume
   end
 
   def validate!
-    raise "Error! Wring kind for this class." if kind != "cargo" 
-    raise "Error! Factory must be." if factory.nil?
+    fail 'Error! Wring kind for this class.' if kind != 'cargo'
+    fail 'Error! Factory must be.' if factory.nil?
   end
 
   def valid?
@@ -34,5 +31,4 @@ attr_accessor :free_volume
   rescue
     false
   end
-
 end
