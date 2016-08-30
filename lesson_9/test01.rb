@@ -21,15 +21,16 @@ m.b = 7
 m.b = 47
 m.c = 6
 m.c = 36
-m.c = 43376
+m.c = 44
 
-p Max.history_h
+# p Max.history_h
 p m.c
 puts '------'
 p m.c_history
 
-
-dd = "er"
-cc = "ror"
-cc_cl = cc.class
-puts "ok" if dd.class == cc_cl
+# dd1 = ["1", "2", "3"]
+# puts dd1
+# dd = "er"
+# cc = "ror"
+# cc_cl = cc.class
+# puts "ok" if dd.class == cc_cl

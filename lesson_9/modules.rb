@@ -27,26 +27,26 @@ module Task_9
     base.extend Acessors
   end
   module Acessors
-    @@history_h = {}
+    # @@history_h = {}
     def attr_accessor_with_history(*args)
       args.each do |i|
         var_name = "@#{i}".to_sym
         define_method(i) { instance_variable_get(var_name)}
         define_method ("#{i}=".to_sym) do |value|
-          instance_variable_set(var_name, value)
-          if @@history_h["#{var_name}"].nil? then
-            @@history_h["#{var_name}"] = Array.new.push("#{value}") 
-          elsif @@history_h["#{var_name}"].last != value then 
-            @@history_h["#{var_name}"].push("#{value}")
+          if var_name.nil? # if var_name.nil?
+            "#{var_name}_h".to_sym = [value]
+          else 
+            "#{var_name}_h" << value
           end
+          instance_variable_set(var_name, value)
         end
-        define_method("#{i}_history".to_sym) { puts @@history_h["#{var_name}"]}
+        define_method("#{i}_history".to_sym) { var_name }
       end
     end
 
-    def history_h
-      @@history_h
-    end
+    # def history_h
+    #   @@history_h
+    # end
 
     def strong_attr_accessor(var, var_class)
       var_s = "@#{var}".to_sym
@@ -96,3 +96,10 @@ module Task_9
     end
   end
 end
+          # After correcting:
+
+          # if @@history_h["#{var_name}"].nil?
+          #   @@history_h["#{var_name}"] = [value]
+          # else 
+          #   @@history_h["#{var_name}"] << value
+          # end
