@@ -28,9 +28,10 @@ p m.c
 puts '------'
 p m.c_history
 
-# dd1 = ["1", "2", "3"]
-# puts dd1
-# dd = "er"
-# cc = "ror"
-# cc_cl = cc.class
-# puts "ok" if dd.class == cc_cl
+# rules = {presence: 'raise "Error! Presence failed." if name.nil? || name == ""',
+#            format: ('raise "Error! Format failed." if name =~ /A-Z{0,3}/'),
+#            type: ('raise "Error! Type failed." if name.class != RailwayStation')}
+# p rules[:presence]
+# name = ""
+# eval rules[:presence]
+p 1.send("+", 2)

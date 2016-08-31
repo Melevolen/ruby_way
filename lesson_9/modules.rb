@@ -27,26 +27,21 @@ module Task_9
     base.extend Acessors
   end
   module Acessors
-    # @@history_h = {}
     def attr_accessor_with_history(*args)
       args.each do |i|
         var_name = "@#{i}".to_sym
         define_method(i) { instance_variable_get(var_name)}
         define_method ("#{i}=".to_sym) do |value|
-          if var_name.nil? # if var_name.nil?
-            "#{var_name}_h".to_sym = [value]
-          else 
-            "#{var_name}_h" << value
-          end
           instance_variable_set(var_name, value)
+          if instance_variable_defined?("#{var_name}_h") == false
+            instance_variable_set("#{var_name}_h", [value]) # if instance_variable_defined?("#{var_name}_h") == false 
+          else
+            instance_variable_get("#{var_name}_h") << value # if instance_variable_defined?("#{var_name}_h") == true
+          end
         end
-        define_method("#{i}_history".to_sym) { var_name }
+        define_method("#{i}_history".to_sym) { instance_variable_get("#{var_name}_h") }
       end
     end
-
-    # def history_h
-    #   @@history_h
-    # end
 
     def strong_attr_accessor(var, var_class)
       var_s = "@#{var}".to_sym
@@ -65,14 +60,10 @@ module Task_9
     end
     module ClassMethods
       def validate(name, type, *args) # Class method
-          case args[1]
-          when 'presence'
-            raise "Error! Presence failed." if name.nil? || name == ""  
-          when 'format'
-            raise "Error! Format failed." if name =~ /A-Z{0,3}/ # name =~ args[2]
-          when 'type'
-            raise "Error! Type failed." if name.class != RailwayStation # name.class != args[2]
-          end
+          @validate_rules = {name: "#{name}", type: "#{type}", args: "#{args}"}
+          # presence: (raise "Error! Presence failed." if name.nil? || name == ""),
+          # format: (raise "Error! Format failed." if name =~ /A-Z{0,3}/),
+          # type: (raise "Error! Type failed." if name.class != RailwayStation)
       end
     end
 
@@ -80,13 +71,27 @@ module Task_9
       def validate! (name, type, *args) # Instance method
         begin
         # valid?
-        self.validate(name, 'presence')
-        self.validate(name, 'format')
-        self.validate(naem, 'type')
+
+        self.send(validate_"#{@validate_rules["type"]}",@validate_rules["name"], @validate_rules["args"])
+
+        # send.validate(name, 'format')
+        # send.validate(naem, 'type')
 
         rescue RuntimeError => e
           puts "Validation not successful: #{e}"
         end
+      end
+
+      def validate_presence(name, *args)
+        raise "Error! Presence failed." if name.nil? || name == ""
+      end
+
+      def validate_format(name, *args)
+        raise "Error! Format failed." if name =~ /A-Z{0,3}/
+      end
+
+      def validate_type(name, *args)
+        raise "Error! Type failed." if name.class != RailwayStation
       end
 
       def valid?
@@ -96,10 +101,3 @@ module Task_9
     end
   end
 end
-          # After correcting:
-
-          # if @@history_h["#{var_name}"].nil?
-          #   @@history_h["#{var_name}"] = [value]
-          # else 
-          #   @@history_h["#{var_name}"] << value
-          # end
