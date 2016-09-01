@@ -60,44 +60,65 @@ module Task_9
     end
     module ClassMethods
       def validate(name, type, *args) # Class method
-          @validate_rules = {name: "#{name}", type: "#{type}", args: "#{args}"}
+        # name = pirojok, type = [{"type": "presence", "arg": 123}, {"type": "format", "arg": 123}]
+        # if type.is_a?(Array)
+        #   @validate_rules = type
+        # end
+        #  @validate_rules = {name: name, type: [type], args: [args]}
+
+          @validate_rules = {name: []} 
+          @validate_rules[name] << [type, args]
           # presence: (raise "Error! Presence failed." if name.nil? || name == ""),
           # format: (raise "Error! Format failed." if name =~ /A-Z{0,3}/),
           # type: (raise "Error! Type failed." if name.class != RailwayStation)
       end
+      def validate_rules
+        @validate_rules
+      end
+
+      def validate_presence(name, arg)
+        if name.nil? || name == ""
+          print "Error! Presence failed." 
+          return false
+        end
+        return true
+      end
+
+      def validate_format(name, arg)
+        if name =~ arg
+          print "Error! Format failed." 
+          return false
+        end
+        return true
+      end
+
+      def validate_type(name, arg)
+        if name.class != arg
+          print "Error! Type failed."
+          return false
+        end
+        return true
+      end
     end
 
     module InstanceMethods
-      def validate! (name, type, *args) # Instance method
-        begin
-        # valid?
-
-        self.send(validate_"#{@validate_rules["type"]}",@validate_rules["name"], @validate_rules["args"])
-
-        # send.validate(name, 'format')
-        # send.validate(naem, 'type')
+      def validate! # Instance method
+        # begin
+          @validate_rules.each do |name, v|
+            #v = ["format", "/^1/"] true
+            #v = [[{"type"}{"type"}], ["1"]] false
+            @validate_rules[name][v[2]] << self.send("validate_#{v[0]}", v[1])
+          end
 
         rescue RuntimeError => e
           puts "Validation not successful: #{e}"
-        end
-      end
-
-      def validate_presence(name, *args)
-        raise "Error! Presence failed." if name.nil? || name == ""
-      end
-
-      def validate_format(name, *args)
-        raise "Error! Format failed." if name =~ /A-Z{0,3}/
-      end
-
-      def validate_type(name, *args)
-        raise "Error! Type failed." if name.class != RailwayStation
+        # end
       end
 
       def valid?
-        true
-        # false
+        @validate_rules.map {|name, v| v[2]}.all?{|e| e == true}
       end
+      
     end
   end
 end

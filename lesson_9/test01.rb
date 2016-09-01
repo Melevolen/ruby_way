@@ -28,10 +28,4 @@ p m.c
 puts '------'
 p m.c_history
 
-# rules = {presence: 'raise "Error! Presence failed." if name.nil? || name == ""',
-#            format: ('raise "Error! Format failed." if name =~ /A-Z{0,3}/'),
-#            type: ('raise "Error! Type failed." if name.class != RailwayStation')}
-# p rules[:presence]
-# name = ""
-# eval rules[:presence]
 p 1.send("+", 2)
