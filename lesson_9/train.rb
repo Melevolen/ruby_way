@@ -5,6 +5,8 @@ require_relative 'modules'
 
 class Train
   include Prod
+  include Task_9
+  include Validation
   attr_accessor :speed, :number
   attr_reader :carriages, :kind, :route
 
@@ -19,25 +21,21 @@ class Train
     @kind = kind
     @factory = options[:factory] # train_factory
     @number = options[:number] # train_number
+    self.validate(name, 'format', NUMBER_FORMAT)
     validate!
     @@trains["#{number}"] = self
     p "Your train was created with number: #{number}"
   end
 
-  def validate!
-    #    fail 'Error! Carriages are less or equal 0...' if carriages <= 0
-    fail 'NameError: Input factory name.' if factory.nil?
-    fail 'NameError: input a name for your train.' if name.nil?
-    fail 'Wrong number format!!!' if number !~ NUMBER_FORMAT
-    fail 'Number already created.' if @@trains.keys.include?(number)
-    true
-  end
+  # def validate!
+  #   #    fail 'Error! Carriages are less or equal 0...' if carriages <= 0
+  #   # fail 'NameError: input a name for your train.' if name.nil?
+  #   # fail 'Wrong number format!!!' if number !~ NUMBER_FORMAT
 
-  def valid?
-    validate!
-  rescue
-    false
-  end
+  #   fail 'Number already created.' if @@trains.keys.include?(number)
+  #   fail 'NameError: Input factory name.' if factory.nil?
+  #   true
+  # end
 
   def carriage_to_block(&_block)
     @carriages.each { |carriage| yield(carriage) }
