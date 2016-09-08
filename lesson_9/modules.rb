@@ -63,15 +63,16 @@ module Validation
     end
 
     module ClassMethods
-      attr_reader :validate_rules
+      attr_reader :validation_rules
+      @@validation_rules = {}
       def validate(name, type, *args) # Class method
         # Метод класса validate не должен определять методы для валидации. 
         # Он должен сохранять правила валидации (имя переменной, тип валиадции, аргументы валидации и т.п.) 
         # в хеше (в инстанс-переменной уровня класса )
         # name = pirojok, type = [{type: "presence", arg: 123}, {type: "format", arg: 123}]
-        @validation_rules = {}
-        @validation_rules[name] = []
-        @validation_rules[name] << {type: t, arg: arg}
+
+        @@validation_rules[name] = []
+        @@validation_rules[name] << {type: type, arg: args}
       end
     end
 
@@ -79,12 +80,10 @@ module Validation
       def validate! # Instance method
         # Инстанс-метод validate! затем читает эти правила из хеша и динамически вызывает (через send) методы валидации,
         # передавая туда значение переменной и параметры валидации
-        # @validate_rules[name].each do |t, a|
-        #   # self.send(validate_"#{@validate_rules[name]['type']}", @validate_rules[name]['arg'])
-        #   self.send(validate_"#{t}", @validate_rules[name]['arg'])
-        # end
-        @validate_rules[name].each do |i|
-          self.send(validate_"#{i[:type]}", i[:arg])
+        @@validation_rules.keys.each do |k|
+          @@validation_rules[k].each do |i|
+            self.send(validate_"#{i[:type]}",[k, i[:arg]])
+          end
         end
       end
 
@@ -94,7 +93,7 @@ module Validation
         rescue
         false
       end
-
+      
     private
       # Сами методы валидации - это приватные инстанс-методы, но они определяются не динамически, 
       # а статически прописаны в модуле, т.е. они имеют имя вроде validate_presence, validate_format и т.п. 
@@ -113,4 +112,3 @@ module Validation
 
     end
 end
-

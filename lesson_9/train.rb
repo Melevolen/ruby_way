@@ -9,8 +9,9 @@ class Train
   include Validation
   attr_accessor :speed, :number
   attr_reader :carriages, :kind, :route
-
   NUMBER_FORMAT = /^(\d{3}|[a-z]{3})-?(\d{2}|[a-z]{2})$/i
+  validate :number, :format, NUMBER_FORMAT
+
 
   @@trains = {}
 
@@ -21,7 +22,8 @@ class Train
     @kind = kind
     @factory = options[:factory] # train_factory
     @number = options[:number] # train_number
-    self.validate(name, 'format', NUMBER_FORMAT)
+    # validate :number, :format, NUMBER_FORMAT
+    # self.validate(name, 'format', NUMBER_FORMAT)
     validate!
     @@trains["#{number}"] = self
     p "Your train was created with number: #{number}"

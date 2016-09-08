@@ -41,7 +41,9 @@ a = 'format'
 test_h[f] << {type: d, arg: s}
 test_h[f] << {type: a, arg: w}
 p test_h
-test_h[f].each do |i|
-	p i[:type] 
-	p i[:arg]
+test_h.keys.each do |k|
+  test_h[k].each do |i|
+	 p i[:type] 
+	 p i[:arg]
+  end
 end
