@@ -63,20 +63,19 @@ module Validation
     end
 
     module ClassMethods
-      attr_reader :validation_rules
-      @@validation_rules = {}
+      # @@validation_rules = {}
       def validate(name, type, *args) # Class method
         # Метод класса validate не должен определять методы для валидации. 
         # Он должен сохранять правила валидации (имя переменной, тип валиадции, аргументы валидации и т.п.) 
         # в хеше (в инстанс-переменной уровня класса )
-        # name = pirojok, type = [{type: "presence", arg: 123}, {type: "format", arg: 123}]
-
         @@validation_rules[name] = []
         @@validation_rules[name] << {type: type, arg: args}
       end
     end
 
     module InstanceMethods
+      @@validation_rules = {}
+      @@foo = ''
       def validate! # Instance method
         # Инстанс-метод validate! затем читает эти правила из хеша и динамически вызывает (через send) методы валидации,
         # передавая туда значение переменной и параметры валидации
@@ -93,7 +92,7 @@ module Validation
         rescue
         false
       end
-      
+
     private
       # Сами методы валидации - это приватные инстанс-методы, но они определяются не динамически, 
       # а статически прописаны в модуле, т.е. они имеют имя вроде validate_presence, validate_format и т.п. 

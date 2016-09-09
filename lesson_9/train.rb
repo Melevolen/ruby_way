@@ -12,7 +12,6 @@ class Train
   NUMBER_FORMAT = /^(\d{3}|[a-z]{3})-?(\d{2}|[a-z]{2})$/i
   validate :number, :format, NUMBER_FORMAT
 
-
   @@trains = {}
 
   def initialize(options = {}) # train_name, train_factory, train_number
